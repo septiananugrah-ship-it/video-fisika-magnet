@@ -45,6 +45,25 @@ const traceB = (ps: Pole[], x0: number, y0: number, steps: number, ds: number, s
   return pts;
 };
 
+/** Garis yang lolos keluar kotak dicerminkan ke sisi S (simetri dipol: cermin + arah dibalik). */
+const withMirror = (lines: P[][], s: Pole, cx: number, cy: number, ang: number, near = 30): P[][] => {
+  const ax = Math.cos(ang);
+  const ay = Math.sin(ang);
+  const extra = lines
+    .filter((l) => {
+      const [x, y] = l[l.length - 1];
+      return Math.hypot(x - s.x, y - s.y) > near;
+    })
+    .map((l) =>
+      l
+        .map(([x, y]): P => {
+          const d = (x - cx) * ax + (y - cy) * ay;
+          return [x - 2 * d * ax, y - 2 * d * ay];
+        })
+        .reverse(),
+    );
+  return [...lines, ...extra];
+};
 const Magnet: React.FC<{x: number; y: number; len: number; h: number; rot: number}> = ({x, y, len, h, rot}) => {
   const r = h * 0.18;
   const L = len / 2;
@@ -132,7 +151,7 @@ export const Title: React.FC = () => {
     {x: CX - half * Math.cos(ra), y: DY - half * Math.sin(ra), q: -1},
   ];
   const ANG = [-2.6, -2.05, -1.55, -1.1, -0.68, -0.3, 0.3, 0.68, 1.1, 1.55, 2.05, 2.6];
-  const lines = ANG.map((an) => traceB(ps, ps[0].x + 24 * Math.cos(an + ra), ps[0].y + 24 * Math.sin(an + ra), 260, 7, 22));
+  const lines = withMirror(ANG.map((an) => traceB(ps, ps[0].x + 24 * Math.cos(an + ra), ps[0].y + 24 * Math.sin(an + ra), 260, 7, 22)), ps[1], CX, DY, ra);
 
   return (
     <AbsoluteFill style={{opacity: out}}>

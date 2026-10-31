@@ -49,6 +49,25 @@ const traceB = (ps: Pole[], x0: number, y0: number, steps: number, ds: number, s
   return pts;
 };
 
+/** Garis yang lolos keluar kotak dicerminkan ke sisi S (simetri dipol: cermin + arah dibalik). */
+const withMirror = (lines: P[][], s: Pole, cx: number, cy: number, ang: number, near = 30): P[][] => {
+  const ax = Math.cos(ang);
+  const ay = Math.sin(ang);
+  const extra = lines
+    .filter((l) => {
+      const [x, y] = l[l.length - 1];
+      return Math.hypot(x - s.x, y - s.y) > near;
+    })
+    .map((l) =>
+      l
+        .map(([x, y]): P => {
+          const d = (x - cx) * ax + (y - cy) * ay;
+          return [x - 2 * d * ax, y - 2 * d * ay];
+        })
+        .reverse(),
+    );
+  return [...lines, ...extra];
+};
 /** Magnet batang: kiri S (biru), kanan U (merah). */
 const Magnet: React.FC<{x: number; y: number; len: number; h: number; rot?: number; op?: number}> = ({x, y, len, h, rot = 0, op = 1}) => {
   if (op <= 0.001) return null;
@@ -218,8 +237,8 @@ const PanelA: React.FC<{t: number; rel: number; north: number}> = ({t, rel, nort
 };
 
 // ---------- (B) aurora ----------
-const EB = {x: -150, y: 10, R: 58};
-const LS = [1.7, 2.4];
+const EB = {x: -165, y: 20, R: 74};
+const LS = [1.55, 2.1];
 const fpt = (L: number, th: number, s: number): P => {
   const r = L * EB.R * Math.sin(th) ** 2;
   return [EB.x + s * r * Math.sin(th), EB.y - r * Math.cos(th)];
@@ -235,11 +254,11 @@ const PanelB: React.FC<{t: number; on: number; curtain: number}> = ({t, on, curt
   const th0 = Math.asin(1 / Math.sqrt(L));
   const ppos = (k: number, ph: number): P => {
     const top = k % 2 === 0;
-    const y0 = EB.y + (rand(k * 3.7) - 0.5) * 260;
+    const y0 = -175 + (rand(k * 3.7) - 0.5) * 50;
     const ax = EB.x - L * EB.R;
     if (ph < 0.4) {
       const u = ph / 0.4;
-      return [mix(-340, ax, u), mix(y0, EB.y, u * u) + 6 * Math.sin(u * 9 + k)];
+      return [mix(-290 + 20 * rand(k), ax, u), mix(y0, EB.y, u) + 10 * Math.sin(u * Math.PI) * (rand(k * 9.1) - 0.5) * 4];
     }
     const v = (ph - 0.4) / 0.6;
     const thE = top ? th0 + 0.06 : Math.PI - th0 - 0.06;
@@ -256,8 +275,8 @@ const PanelB: React.FC<{t: number; on: number; curtain: number}> = ({t, on, curt
   return (
     <g>
       {/* Matahari di tepi kiri */}
-      <circle cx={-345} cy={-160} r={120} fill="url(#soft-force)" opacity={0.9} />
-      <circle cx={-345} cy={-160} r={46 + 2 * Math.sin(t * 2)} fill={C.force} opacity={0.85} />
+      <circle cx={-290} cy={-178} r={100} fill="url(#soft-force)" opacity={0.9} />
+      <circle cx={-290} cy={-178} r={30 + 2 * Math.sin(t * 2)} fill={C.force} opacity={0.85} />
       {/* garis medan Bumi */}
       {FLINES.map((pts, k) => (
         <g key={k}>
@@ -270,11 +289,11 @@ const PanelB: React.FC<{t: number; on: number; curtain: number}> = ({t, on, curt
         </g>
       ))}
       <circle cx={EB.x} cy={EB.y} r={EB.R} fill="url(#hk-ocean)" />
-      <path d={`M${EB.x - 30},${EB.y - 30} q20,-12 34,4 q-6,22 -28,18 Z M${EB.x + 6},${EB.y + 8} q22,-6 28,14 q-14,20 -30,6 Z`} fill="#3f9a72" opacity={0.75} />
+      <path d={`M${EB.x - 40},${EB.y - 38} q26,-16 44,5 q-8,28 -36,23 Z M${EB.x + 8},${EB.y + 10} q28,-8 36,18 q-18,26 -38,8 Z`} fill="#3f9a72" opacity={0.75} />
       <circle cx={EB.x} cy={EB.y} r={EB.R} fill="none" stroke="#9fd0ff" strokeOpacity={0.5} strokeWidth={2} />
       {[-1, 1].map((sg) => (
         <g key={sg}>
-          <ellipse cx={EB.x} cy={EB.y + sg * EB.R * 0.9} rx={28} ry={8} fill="none" stroke={C.work} strokeWidth={4} opacity={(0.4 + 0.35 * Math.sin(t * 5 + sg)) * on} />
+          <ellipse cx={EB.x} cy={EB.y + sg * EB.R * 0.9} rx={28} ry={9} fill="none" stroke={C.work} strokeWidth={4} opacity={(0.4 + 0.35 * Math.sin(t * 5 + sg)) * on} />
           <ellipse cx={EB.x} cy={EB.y + sg * EB.R * 0.9} rx={40} ry={14} fill="url(#soft-work)" opacity={on} />
         </g>
       ))}
@@ -394,7 +413,7 @@ const MPOLES: Pole[] = [
   {x: 960 - 92, y: MY, q: -1},
 ];
 const MBOX = [560, 1360, 610, 900];
-const MLINES = [-2.5, -1.9, -1.35, -0.85, -0.4, 0.4, 0.85, 1.35, 1.9, 2.5].map((a) => traceB(MPOLES, MPOLES[0].x + 22 * Math.cos(a), MY + 22 * Math.sin(a), 220, 6, 18, MBOX));
+const MLINES = withMirror([-2.5, -1.9, -1.35, -0.85, -0.4, 0.4, 0.85, 1.35, 1.9, 2.5].map((a) => traceB(MPOLES, MPOLES[0].x + 22 * Math.cos(a), MY + 22 * Math.sin(a), 220, 6, 18, MBOX)), MPOLES[1], 960, MY, 0);
 
 // loop arus & magnet kecil
 const LX = 620;
@@ -492,7 +511,7 @@ export const Hook: React.FC = () => {
   const tags = ramp(t, c[3] - 0.1, c[3] + 0.7);
   const conv = ramp(t, wordOf(3, 'satu') - 0.3, wordOf(3, 'hal') + 0.4, EASE_IN_OUT);
   const gl = ramp(t, c[4] - 0.5, c[4] + 0.3);
-  const draw = ramp(t, c[4] - 0.4, c[4] + 1.4, EASE_IN_OUT);
+  const draw = ramp(t, c[4] - 0.8, c[4] + 0.7, EASE_IN_OUT);
   const zp = ramp(t, c[5] - 0.2, c[5] + 1.3, EASE_IN_OUT);
   const zs = 1 + 3 * zp;
   const world = 1 - ramp(t, c[5] + 0.2, c[5] + 1.1, EASE_IN_OUT);
@@ -613,15 +632,19 @@ export const Hook: React.FC = () => {
         </g>
 
         {/* elektron & inti: magnet kecil */}
-        <Spinner x={EX} y={EY} t={t} kind="e" op={eP} />
-        <Spinner x={NX} y={EY} t={t + 0.7} kind="n" op={nP} />
-        <Label x={EX} y={EY + 140} size={28} color={C.pot} weight={600} opacity={eP}>
+        <g transform={`translate(${EX} ${EY}) scale(1.3) translate(${-EX} ${-EY})`}>
+          <Spinner x={EX} y={EY} t={t} kind="e" op={eP} />
+        </g>
+        <g transform={`translate(${NX} ${EY}) scale(1.3) translate(${-NX} ${-EY})`}>
+          <Spinner x={NX} y={EY} t={t + 0.7} kind="n" op={nP} />
+        </g>
+        <Label x={EX} y={EY + 165} size={30} color={C.pot} weight={600} opacity={eP}>
           elektron
         </Label>
-        <Label x={NX} y={EY + 140} size={28} color={C.heat} weight={600} opacity={nP}>
+        <Label x={NX} y={EY + 165} size={30} color={C.heat} weight={600} opacity={nP}>
           inti atom
         </Label>
-        <Label x={(EX + NX) / 2} y={EY + 200} size={32} color={C.gold} weight={700} opacity={kc}>
+        <Label x={(EX + NX) / 2} y={EY + 222} size={32} color={C.gold} weight={700} opacity={kc}>
           spin → magnet kecil
         </Label>
         <Twinkles x={(EX + NX) / 2} y={EY} rx={220} ry={90} n={6} color="gold" opacity={0.7 * kc} seed={4} />

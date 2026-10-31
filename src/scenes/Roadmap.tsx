@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {BACK, EASE_IN_OUT, cyc, pathOf, ramp, rand, smoothPath, win} from '../anim';
-import {DrawPath, Glow, Motes, Ripple, Spark, Stage, Stream, pointAlong} from '../components/primitives';
+import {Arrow, DrawPath, Glow, Motes, Ripple, Spark, Stage, Stream, pointAlong} from '../components/primitives';
 import {useScene} from '../SceneContext';
 import {C, FONT, type Hue} from '../theme';
 
@@ -41,6 +41,7 @@ const UX = CX.map((x) => (x - X0P) / (X1P - X0P));
 const fr = (v: number) => ((v % 1) + 1) % 1;
 
 type Pole = {x: number; y: number; q: number};
+type P = [number, number];
 const bdir = (ps: Pole[], x: number, y: number): [number, number] => {
   let bx = 0;
   let by = 0;
@@ -71,6 +72,25 @@ const traceB = (ps: Pole[], x0: number, y0: number, steps: number, ds: number, s
   return pts;
 };
 
+/** Garis yang lolos keluar kotak dicerminkan ke sisi S (simetri dipol: cermin + arah dibalik). */
+const withMirror = (lines: [number, number][][], s: Pole, cx: number, cy: number, ang: number, near = 30): [number, number][][] => {
+  const ax = Math.cos(ang);
+  const ay = Math.sin(ang);
+  const extra = lines
+    .filter((l) => {
+      const [x, y] = l[l.length - 1];
+      return Math.hypot(x - s.x, y - s.y) > near;
+    })
+    .map((l) =>
+      l
+        .map(([x, y]): P => {
+          const d = (x - cx) * ax + (y - cy) * ay;
+          return [x - 2 * d * ax, y - 2 * d * ay];
+        })
+        .reverse(),
+    );
+  return [...lines, ...extra];
+};
 const Magnet: React.FC<{x: number; y: number; len: number; h: number; rot: number}> = ({x, y, len, h, rot}) => {
   const r = h * 0.18;
   const L = len / 2;
@@ -109,7 +129,7 @@ const Icon: React.FC<{i: number; x: number; y: number; t: number; act: number}> 
       {x: x - 78 * Math.cos(ra), y: y - 78 * Math.sin(ra), q: -1},
     ];
     const box = [x - 235, x + 235, y - 105, y + 105];
-    const lines = [-2.5, -1.9, -1.35, -0.85, -0.4, 0, 0.4, 0.85, 1.35, 1.9, 2.5].map((a) => traceB(ps, ps[0].x + 20 * Math.cos(a + ra), ps[0].y + 20 * Math.sin(a + ra), 160, 6, 18, box));
+    const lines = withMirror([-2.5, -1.9, -1.35, -0.85, -0.4, 0, 0.4, 0.85, 1.35, 1.9, 2.5].map((a) => traceB(ps, ps[0].x + 20 * Math.cos(a + ra), ps[0].y + 20 * Math.sin(a + ra), 160, 6, 18, box)), ps[1], x, y, ra);
     return (
       <g>
         <Glow x={x} y={y} r={170} color="spr" opacity={0.25 + 0.3 * act} />
@@ -276,17 +296,16 @@ export const Roadmap: React.FC = () => {
         Peta perjalanan: <span style={{color: C.spr, opacity: 0.35 + 0.65 * imp}}>kemagnetan</span> <span style={{color: C.muted, opacity: 0.35 + 0.65 * three}}>dalam tiga bagian</span>
       </div>
       <Stage>
-        <Motes x={960} y={520} rx={900} ry={340} n={36} color="pot" opacity={0.4} seed={11} />
-        {/* muatan samar yang melayang di latar */}
+        <Motes x={960} y={520} rx={900} ry={340} n={36} color="spr" opacity={0.4} seed={11} />
+        {/* simbol medan ⊙ samar yang melayang di latar */}
         {Array.from({length: 18}, (_, k) => {
           const ph = fr(t * (0.05 + rand(k) * 0.05) + rand(k * 3.1));
           const x = 60 + rand(k * 5.3) * 1800 + 18 * Math.sin(t * 0.8 + k);
           const y = 900 - ph * 760;
-          const pos = k % 2 === 0;
           return (
             <g key={k} opacity={0.35 * cyc(ph) * head}>
-              <circle cx={x} cy={y} r={6} fill={pos ? C.heat : C.pot} opacity={0.6} />
-              <path d={pos ? `M${x - 3.5},${y} h7 M${x},${y - 3.5} v7` : `M${x - 3.5},${y} h7`} stroke="#fff" strokeWidth={1.5} />
+              <circle cx={x} cy={y} r={8} fill="none" stroke={C.spr} strokeWidth={1.5} />
+              <circle cx={x} cy={y} r={2.2} fill={C.spr} />
             </g>
           );
         })}
