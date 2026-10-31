@@ -3,22 +3,22 @@ import {AbsoluteFill} from 'remotion';
 import {BACK, EASE_IN_OUT, cyc, pathOf, ramp, rand, smoothPath, win} from '../anim';
 import {DrawPath, Glow, Motes, Ripple, Spark, Stage, Stream, pointAlong} from '../components/primitives';
 import {useScene} from '../SceneContext';
-import {ATOM, C, FONT, type Hue} from '../theme';
+import {C, FONT, type Hue} from '../theme';
 
 // Peta video: tiga kartu bagian dengan ikon yang terus bergerak (dihitung analitik):
-// (1) muatan + dan − dengan garis medan yang dihitung langsung (RK2) — jaraknya bernapas, garis melengkung ulang;
-// (2) kisi ion Na⁺/Cl⁻ yang bergetar + atom (elektron mengorbit inti);
-// (3) petir yang menyambar berkala, baterai yang mendorong elektron, gel elektroforesis (pita pendek lebih cepat ke kutub +);
+// (1) magnet batang bergoyang dengan garis medan yang dihitung langsung (RK2, keluar U masuk S);
+// (2) spektrometer massa (ion berbelok dalam B ⊗, dua isotop beda jari-jari) + elektron berspin yang berpresesi;
+// (3) kumparan motor berputar di antara kutub U–S + cincin MRI dengan kumparan RF berputar;
 // dihubungkan oleh lintasan "kawat" tempat sebutir arus (toska) merambat.
 const PARTS = [
-  {n: '1', title: 'Konsep', color: C.pot, hue: 'pot' as Hue, items: ['Muatan', 'Hukum Coulomb', 'Medan listrik', 'Potensial', 'Kapasitor', 'Arus dan hambatan', 'Rangkaian']},
-  {n: '2', title: 'Listrik di dunia kimia', color: C.work, hue: 'work' as Hue, items: ['Ikatan ion', 'Atom hidrogen', 'Elektronvolt', 'Elektrolisis']},
-  {n: '3', title: 'Penerapan', color: C.kin, hue: 'kin' as Hue, items: ['Petir', 'Baterai', 'Elektroforesis']},
+  {n: '1', title: 'Konsep', color: C.pot, hue: 'pot' as Hue, items: ['Kutub dan medan', 'Arus menghasilkan medan', 'Gaya Lorentz', 'Gaya pada kawat', 'Induksi elektromagnetik']},
+  {n: '2', title: 'Magnet di dunia kimia', color: C.work, hue: 'work' as Hue, items: ['Spektrometer massa', 'Momen magnet & spin', 'Resonansi magnetik inti']},
+  {n: '3', title: 'Penerapan', color: C.kin, hue: 'kin' as Hue, items: ['Motor listrik', 'Generator', 'MRI']},
 ];
 const KEYS = [
-  ['muatan', 'coulomb', 'medan', 'potensial', 'kapasitor', 'arus', 'rangkaian'],
-  ['ion', 'hidrogen', 'elektronvolt', 'elektrolisis'],
-  ['petir', 'baterai', 'elektroforesis'],
+  ['kutub', 'arus', 'lorentz', 'kawat', 'induksi'],
+  ['spektrometer', 'momen', 'resonansi'],
+  ['motor', 'generator', 'mri'],
 ];
 const CX = [380, 960, 1540];
 const TOP = 196;
@@ -40,46 +40,57 @@ const UX = CX.map((x) => (x - X0P) / (X1P - X0P));
 
 const fr = (v: number) => ((v % 1) + 1) % 1;
 
-type Q = {x: number; y: number; q: number};
-const trace = (qs: Q[], x0: number, y0: number, steps: number, ds: number, stopR: number, box: number[]): [number, number][] => {
-  const E = (x: number, y: number) => {
-    let ex = 0;
-    let ey = 0;
-    for (const c of qs) {
-      const dx = x - c.x;
-      const dy = y - c.y;
-      const r2 = dx * dx + dy * dy + 1e-3;
-      const r3 = r2 * Math.sqrt(r2);
-      ex += (c.q * dx) / r3;
-      ey += (c.q * dy) / r3;
-    }
-    const m = Math.hypot(ex, ey) || 1;
-    return [ex / m, ey / m];
-  };
+type Pole = {x: number; y: number; q: number};
+const bdir = (ps: Pole[], x: number, y: number): [number, number] => {
+  let bx = 0;
+  let by = 0;
+  for (const c of ps) {
+    const dx = x - c.x;
+    const dy = y - c.y;
+    const r2 = dx * dx + dy * dy + 1e-3;
+    const r3 = r2 * Math.sqrt(r2);
+    bx += (c.q * dx) / r3;
+    by += (c.q * dy) / r3;
+  }
+  const m = Math.hypot(bx, by) || 1;
+  return [bx / m, by / m];
+};
+const traceB = (ps: Pole[], x0: number, y0: number, steps: number, ds: number, stopR: number, box: number[]): [number, number][] => {
   const pts: [number, number][] = [[x0, y0]];
   let x = x0;
   let y = y0;
   for (let i = 0; i < steps; i++) {
-    const [ax, ay] = E(x, y);
-    const [bx, by] = E(x + ax * ds * 0.5, y + ay * ds * 0.5);
+    const [ax, ay] = bdir(ps, x, y);
+    const [bx, by] = bdir(ps, x + ax * ds * 0.5, y + ay * ds * 0.5);
     x += bx * ds;
     y += by * ds;
     pts.push([x, y]);
-    if (qs.some((c) => c.q < 0 && Math.hypot(x - c.x, y - c.y) < stopR)) break;
+    if (ps.some((c) => c.q < 0 && Math.hypot(x - c.x, y - c.y) < stopR)) break;
     if (x < box[0] || x > box[1] || y < box[2] || y > box[3]) break;
   }
   return pts;
 };
 
-const Charge: React.FC<{x: number; y: number; r: number; s: number}> = ({x, y, r, s}) => (
-  <g>
-    <circle cx={x} cy={y} r={r * 2.6} fill={`url(#soft-${s > 0 ? 'heat' : 'pot'})`} />
-    <circle cx={x} cy={y} r={r} fill={s > 0 ? C.heat : C.pot} stroke={s > 0 ? '#ffc2ca' : '#c8e4ff'} strokeWidth={r * 0.08} />
-    <circle cx={x - r * 0.32} cy={y - r * 0.36} r={r * 0.34} fill="#fff" opacity={0.3} />
-    <line x1={x - r * 0.45} y1={y} x2={x + r * 0.45} y2={y} stroke="#fff" strokeWidth={r * 0.16} strokeLinecap="round" />
-    {s > 0 ? <line x1={x} y1={y - r * 0.45} x2={x} y2={y + r * 0.45} stroke="#fff" strokeWidth={r * 0.16} strokeLinecap="round" /> : null}
-  </g>
-);
+const Magnet: React.FC<{x: number; y: number; len: number; h: number; rot: number}> = ({x, y, len, h, rot}) => {
+  const r = h * 0.18;
+  const L = len / 2;
+  const left = `M0,${-h / 2} H${-L + r} Q${-L},${-h / 2} ${-L},${-h / 2 + r} V${h / 2 - r} Q${-L},${h / 2} ${-L + r},${h / 2} H0 Z`;
+  const right = `M0,${-h / 2} H${L - r} Q${L},${-h / 2} ${L},${-h / 2 + r} V${h / 2 - r} Q${L},${h / 2} ${L - r},${h / 2} H0 Z`;
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${rot})`}>
+      <path d={left} fill={C.pot} />
+      <path d={right} fill={C.heat} />
+      <rect x={-L + r} y={-h / 2 + h * 0.1} width={len - 2 * r} height={h * 0.18} rx={h * 0.09} fill="#fff" opacity={0.25} />
+      <rect x={-L} y={-h / 2} width={len} height={h} rx={r} fill="none" stroke="#fff" strokeOpacity={0.35} strokeWidth={2} />
+      <text x={-L / 2} y={2} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={h * 0.55} fill="#fff" transform={`rotate(${-rot} ${-L / 2} 0)`}>
+        S
+      </text>
+      <text x={L / 2} y={2} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={h * 0.55} fill="#fff" transform={`rotate(${-rot} ${L / 2} 0)`}>
+        U
+      </text>
+    </g>
+  );
+};
 
 const Tag: React.FC<{x: number; y: number; color: string; children: React.ReactNode}> = ({x, y, color, children}) => (
   <text x={x} y={y} textAnchor="middle" fontFamily={FONT.mono} fontSize={20} fill={color} opacity={0.92}>
@@ -90,158 +101,152 @@ const Tag: React.FC<{x: number; y: number; color: string; children: React.ReactN
 /** Ikon tiap bagian (SVG, selalu bergerak). */
 const Icon: React.FC<{i: number; x: number; y: number; t: number; act: number}> = ({i, x, y, t, act}) => {
   if (i === 0) {
-    const sep = 190 + 30 * Math.sin(t * 1.1);
-    const qs: Q[] = [
-      {x: x - sep / 2, y, q: 1},
-      {x: x + sep / 2, y, q: -1},
+    // magnet batang bergoyang; garis medan dihitung ulang (keluar U, masuk S)
+    const rot = 10 * Math.sin(t * 1.1);
+    const ra = (rot * Math.PI) / 180;
+    const ps: Pole[] = [
+      {x: x + 78 * Math.cos(ra), y: y + 78 * Math.sin(ra), q: 1},
+      {x: x - 78 * Math.cos(ra), y: y - 78 * Math.sin(ra), q: -1},
     ];
-    const box = [x - 235, x + 235, y - 100, y + 100];
-    const lines = [-1.3, -0.85, -0.42, 0, 0.42, 0.85, 1.3, 2.2, -2.2, Math.PI].map((a) => trace(qs, qs[0].x + 22 * Math.cos(a), y + 22 * Math.sin(a), 90, 7, 20, box));
+    const box = [x - 235, x + 235, y - 105, y + 105];
+    const lines = [-2.5, -1.9, -1.35, -0.85, -0.4, 0, 0.4, 0.85, 1.35, 1.9, 2.5].map((a) => traceB(ps, ps[0].x + 20 * Math.cos(a + ra), ps[0].y + 20 * Math.sin(a + ra), 160, 6, 18, box));
     return (
       <g>
-        <Glow x={x} y={y} r={170} color="pot" opacity={0.25 + 0.3 * act} />
+        <Glow x={x} y={y} r={170} color="spr" opacity={0.25 + 0.3 * act} />
         {lines.map((pts, k) => (
           <g key={k}>
-            <path d={pathOf(pts)} fill="none" stroke={C.force} strokeWidth={2.5} opacity={0.55} />
+            <path d={pathOf(pts)} fill="none" stroke={C.spr} strokeWidth={2.5} opacity={0.6} />
             {(() => {
               const ph = fr(t * 0.4 + k * 0.23);
               const [px, py] = pointAlong(pts, ph);
-              return <circle cx={px} cy={py} r={4.5} fill={C.force} opacity={cyc(ph)} />;
+              return <circle cx={px} cy={py} r={4.5} fill={C.spr} opacity={cyc(ph)} />;
             })()}
           </g>
         ))}
-        <Charge x={qs[0].x} y={y} r={26} s={1} />
-        <Charge x={qs[1].x} y={y} r={26} s={-1} />
-        <Tag x={x} y={y + 128} color={C.force}>
+        <Magnet x={x} y={y} len={190} h={50} rot={rot} />
+        <Tag x={x} y={y + 128} color={C.spr}>
           garis medan
         </Tag>
       </g>
     );
   }
   if (i === 1) {
-    const lx = x - 130;
-    const ax = x + 125;
-    const ea = t * 1.8;
-    const rot = (u: number, v: number): [number, number] => [ax + u * Math.cos(-0.4) - v * Math.sin(-0.4), y + u * Math.sin(-0.4) + v * Math.cos(-0.4)];
-    const [ex, ey] = rot(78 * Math.cos(ea), 32 * Math.sin(ea));
-    const trail = [1, 2, 3, 4].map((k) => rot(78 * Math.cos(ea - k * 0.1), 32 * Math.sin(ea - k * 0.1)));
+    // spektrometer massa: ion + masuk ke atas dalam B ⊗, berbelok ke kiri (F = qv×B), dua isotop beda jari-jari
+    const lx = x - 95;
+    const ex = lx + 70;
+    const by = y + 72;
+    const ax = x + 140;
+    const pre = t * 1.6;
+    const tipX = ax + 24 * Math.sin(pre);
+    const tipY = y - 74 + 6 * Math.cos(pre);
     return (
       <g>
         <Glow x={x} y={y} r={170} color="work" opacity={0.25 + 0.3 * act} />
+        <rect x={lx - 140} y={y - 100} width={230} height={172} rx={10} fill={C.spr} opacity={0.07} stroke={C.spr} strokeOpacity={0.35} strokeWidth={1.5} />
         {Array.from({length: 12}, (_, k) => {
-          const c = k % 4;
-          const r = Math.floor(k / 4);
-          const na = (c + r) % 2 === 0;
-          const px = lx - 81 + c * 54 + 2.5 * Math.sin(t * 4.1 + k * 1.9);
-          const py = y - 56 + r * 56 + 2.5 * Math.sin(t * 3.7 + k * 2.7);
+          const cx = lx - 112 + (k % 4) * 58;
+          const cy = y - 72 + Math.floor(k / 4) * 50;
           return (
-            <g key={k}>
-              <circle cx={px} cy={py} r={na ? 13 : 21} fill={na ? ATOM.Na.fill : ATOM.Cl.fill} stroke="#fff" strokeOpacity={0.4} strokeWidth={1.5} />
-              <text x={px} y={py + 1} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={na ? 16 : 22} fill="#0b1430">
-                {na ? '+' : '−'}
-              </text>
+            <g key={k} opacity={0.35 + 0.15 * Math.sin(t * 1.5 + k)}>
+              <circle cx={cx} cy={cy} r={7} fill="none" stroke={C.spr} strokeWidth={1.5} />
+              <path d={`M${cx - 4},${cy - 4} L${cx + 4},${cy + 4} M${cx + 4},${cy - 4} L${cx - 4},${cy + 4}`} stroke={C.spr} strokeWidth={1.5} />
             </g>
           );
         })}
-        <ellipse cx={ax} cy={y} rx={78} ry={32} fill="none" stroke={C.pot} strokeOpacity={0.4} strokeWidth={2} strokeDasharray="5 7" transform={`rotate(${(-0.4 * 180) / Math.PI} ${ax} ${y})`} />
-        <Charge x={ax} y={y} r={15} s={1} />
-        <Spark x={ex} y={ey} r={6.5} color="pot" trail={trail} />
-        <Tag x={lx} y={y + 128} color={C.work}>
-          kisi ion
+        <rect x={ex - 6} y={by} width={12} height={34} fill="#5d6a8c" />
+        <rect x={lx - 150} y={by + 2} width={180} height={10} rx={4} fill={C.force} opacity={0.6} />
+        {[56, 78].map((R, k) => {
+          const cx = ex - R;
+          const arc: [number, number][] = Array.from({length: 25}, (_, j) => {
+            const a = (j / 24) * Math.PI;
+            return [cx + R * Math.cos(a), by - R * Math.sin(a)];
+          });
+          const ph = fr(t * 0.45 + k * 0.5);
+          const [px, py] = pointAlong(arc, ph);
+          const trail = [1, 2, 3, 4].map((j) => pointAlong(arc, Math.max(0, ph - j * 0.03)));
+          const hit = fr(t * 0.45 + k * 0.5 + 0.0);
+          return (
+            <g key={R}>
+              <path d={pathOf(arc)} fill="none" stroke={k ? C.kin : C.work} strokeWidth={2} strokeDasharray="5 6" opacity={0.6} />
+              <Spark x={px} y={py} r={5.5} color={k ? 'kin' : 'work'} trail={trail} opacity={cyc(ph)} />
+              <circle cx={ex - 2 * R} cy={by + 7} r={8 + 6 * Math.sin(Math.PI * hit) ** 8} fill={k ? C.kin : C.work} opacity={0.8} />
+            </g>
+          );
+        })}
+        {/* elektron berspin */}
+        <ellipse cx={ax} cy={y - 74} rx={24} ry={6} fill="none" stroke={C.gold} strokeOpacity={0.35} strokeWidth={1.5} strokeDasharray="3 5" />
+        <circle cx={ax} cy={y} r={30} fill={C.pot} />
+        {[0, 1, 2].map((k) => {
+          const c = Math.cos(t * 3 + (k * Math.PI) / 3);
+          return <ellipse key={k} cx={ax} cy={y} rx={Math.abs(c) * 30 + 0.5} ry={30} fill="none" stroke="#dff0ff" strokeOpacity={0.2 + 0.3 * Math.max(0, Math.sin(t * 3 + (k * Math.PI) / 3))} strokeWidth={1.5} />;
+        })}
+        <circle cx={ax - 9} cy={y - 11} r={9} fill="#fff" opacity={0.35} />
+        <Arrow x1={ax} y1={y + 6} x2={tipX} y2={tipY} color="gold" width={5} pulse={false} />
+        <Tag x={lx - 30} y={y + 128} color={C.work}>
+          spektrometer
         </Tag>
         <Tag x={ax} y={y + 128} color={C.work}>
-          atom
+          spin
         </Tag>
       </g>
     );
   }
-  // petir + baterai + gel
-  const bx = x - 160;
-  const ph = fr(t * 0.42);
-  const flash = ph < 0.35 ? cyc(ph / 0.35) : 0;
-  const boltPts: [number, number][] = [
-    [bx - 4, y - 50],
-    [bx + 18, y - 8],
-    [bx - 8, y + 4],
-    [bx + 16, y + 46],
-    [bx - 4, y + 58],
-    [bx + 14, y + 100],
+  // motor: kumparan berputar di antara kutub U–S; MRI: cincin magnet dengan kumparan RF berputar
+  const mx = x - 95;
+  const w = t * 2.2;
+  const hw = 50 * Math.cos(w);
+  const gx = x + 145;
+  const coil: [number, number][] = [
+    [mx - hw, y + 48],
+    [mx - hw, y - 48],
+    [mx + hw, y - 48],
+    [mx + hw, y + 48],
+    [mx - hw, y + 48],
   ];
-  const vx = x;
-  const gx = x + 160;
-  const bands = [0.85, 0.55, 0.35];
   return (
     <g>
       <Glow x={x} y={y} r={170} color="kin" opacity={0.25 + 0.3 * act} />
-      {/* awan + petir */}
-      <circle cx={bx} cy={y - 50} r={70} fill="url(#soft-force)" opacity={flash} />
-      {[
-        [-36, -66, 30],
-        [0, -82, 40],
-        [36, -68, 32],
-        [-10, -54, 32],
-        [24, -52, 28],
-      ].map(([dx, dy, r], k) => (
-        <circle key={k} cx={bx + dx + 3 * Math.sin(t * 0.7)} cy={y + dy} r={r} fill={k < 3 ? '#3a4672' : '#2a3460'} />
-      ))}
-      <path d={pathOf(boltPts)} fill="none" stroke={C.force} strokeWidth={14} strokeOpacity={0.2 * flash} strokeLinejoin="round" />
-      <path d={pathOf(boltPts)} fill="none" stroke={C.force} strokeWidth={5} opacity={flash} strokeLinejoin="round" />
-      <path d={pathOf(boltPts)} fill="none" stroke="#fff" strokeWidth={2} opacity={flash} strokeLinejoin="round" />
-      {/* baterai: elektron keluar dari −, kembali ke + */}
-      {(() => {
-        const loop: [number, number][] = [
-          [vx + 4, y + 66],
-          [vx + 4, y + 84],
-          [vx + 58, y + 84],
-          [vx + 58, y - 84],
-          [vx + 4, y - 84],
-          [vx + 4, y - 66],
+      {[-30, -10, 10, 30].map((dy, k) => {
+        const pts: [number, number][] = [
+          [mx - 88, y + dy],
+          [mx + 88, y + dy],
         ];
+        const ph = fr(t * 0.5 + k * 0.27);
+        const [px, py] = pointAlong(pts, ph);
         return (
-          <g>
-            <path d={pathOf(loop)} fill="none" stroke="#b77a3c" strokeWidth={5} strokeLinejoin="round" />
-            {Array.from({length: 7}, (_, k) => {
-              const u = fr(t * 0.32 + k / 7);
-              const [ex, ey] = pointAlong(loop, u);
-              return <circle key={k} cx={ex} cy={ey} r={5} fill={C.pot} opacity={cyc(u)} />;
-            })}
-            <rect x={vx - 40} y={y - 78} width={30} height={10} rx={3} fill="#c8cfe6" transform={`translate(${16} 0)`} />
-            <rect x={vx - 32} y={y - 68} width={64} height={136} rx={12} fill="#2b3762" stroke="#a9b4d8" strokeWidth={3} />
-            <rect x={vx - 26} y={y - 62 + 124 * (1 - (0.65 + 0.15 * Math.sin(t * 1.2)))} width={52} height={124 * (0.65 + 0.15 * Math.sin(t * 1.2))} rx={8} fill={C.work} opacity={0.55} />
-            <text x={vx} y={y - 38} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={30} fill="#fff">
-              +
-            </text>
-            <text x={vx} y={y + 42} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={32} fill="#fff">
-              −
-            </text>
+          <g key={k}>
+            <line x1={mx - 88} y1={y + dy} x2={mx + 88} y2={y + dy} stroke={C.spr} strokeWidth={1.8} opacity={0.4} />
+            <circle cx={px} cy={py} r={3.5} fill={C.spr} opacity={cyc(ph)} />
           </g>
         );
-      })()}
-      {/* gel elektroforesis: DNA (−) bergerak ke kutub + di bawah */}
-      <rect x={gx - 44} y={y - 92} width={88} height={190} rx={8} fill="#1d3a5a" stroke="#8fc6e8" strokeOpacity={0.7} strokeWidth={2.5} />
-      {[0, 1].map((k) => (
-        <rect key={k} x={gx - 34 + k * 40} y={y - 84} width={28} height={8} rx={2} fill="#0b1430" />
-      ))}
-      {[0, 1].map((lane) =>
-        bands.map((sp, b) => {
-          const p = fr(t * 0.12 * sp + lane * 0.13 + b * 0.05);
-          return <rect key={`${lane}-${b}`} x={gx - 34 + lane * 40} y={y - 74 + p * 160} width={28} height={6} rx={2} fill="#9ef0ff" opacity={cyc(p) * 0.9} />;
-        }),
-      )}
-      <text x={gx + 60} y={y - 80} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={28} fill={C.pot}>
-        −
+      })}
+      <path d={`M${mx - 140},${y - 70} H${mx - 96} Q${mx - 80},${y} ${mx - 96},${y + 70} H${mx - 140} Z`} fill={C.heat} />
+      <path d={`M${mx + 140},${y - 70} H${mx + 96} Q${mx + 80},${y} ${mx + 96},${y + 70} H${mx + 140} Z`} fill={C.pot} />
+      <text x={mx - 120} y={y + 2} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={26} fill="#fff">
+        U
       </text>
-      <text x={gx + 60} y={y + 86} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={28} fill={C.heat}>
-        +
+      <text x={mx + 120} y={y + 2} textAnchor="middle" dominantBaseline="central" fontFamily={FONT.head} fontWeight={700} fontSize={26} fill="#fff">
+        S
       </text>
-      <Tag x={bx} y={y + 128} color={C.kin}>
-        petir
-      </Tag>
-      <Tag x={vx + 10} y={y + 128} color={C.kin}>
-        baterai
+      <line x1={mx} y1={y - 78} x2={mx} y2={y + 92} stroke="#8a96b8" strokeWidth={4} />
+      <path d={pathOf(coil)} fill="none" stroke="#e09a5a" strokeWidth={6} strokeLinejoin="round" opacity={0.6 + 0.4 * Math.abs(Math.cos(w))} />
+      {Array.from({length: 6}, (_, k) => {
+        const ph = fr(t * 0.5 + k / 6);
+        const [px, py] = pointAlong(coil, ph);
+        return <circle key={k} cx={px} cy={py} r={4.5} fill={C.cyan} opacity={0.4 + 0.6 * Math.abs(Math.cos(w))} />;
+      })}
+      {/* MRI */}
+      <circle cx={gx} cy={y} r={80} fill="#c3cde3" opacity={0.9} />
+      <circle cx={gx} cy={y} r={44} fill="#0d1838" />
+      <circle cx={gx} cy={y} r={62} fill="none" stroke={C.cyan} strokeWidth={8} strokeDasharray="60 330" strokeDashoffset={-t * 120} opacity={0.8} />
+      <circle cx={gx} cy={y} r={14} fill="none" stroke={C.spr} strokeWidth={2.5} />
+      <circle cx={gx} cy={y} r={3.5} fill={C.spr} />
+      <circle cx={gx} cy={y} r={30 + 6 * Math.sin(t * 3)} fill="none" stroke={C.spr} strokeOpacity={0.3} strokeWidth={1.5} />
+      <Tag x={mx} y={y + 128} color={C.kin}>
+        motor
       </Tag>
       <Tag x={gx} y={y + 128} color={C.kin}>
-        gel
+        MRI
       </Tag>
     </g>
   );
@@ -262,13 +267,13 @@ export const Roadmap: React.FC = () => {
   const loop = ramp(t, cue(3) + 1.6, cue(3) + 2.6);
   const ghost = win(t, 0.4, cue(3) + 0.6, 0.8, 0.8);
   const itemAt = (i: number, k: number) => wordOf(i + 1, KEYS[i][k]) - 0.15;
-  const imp = ramp(t, wordOf(0, 'listrik') - 0.2, wordOf(0, 'listrik') + 0.6);
+  const imp = ramp(t, wordOf(0, 'kemagnetan') - 0.2, wordOf(0, 'kemagnetan') + 0.6);
   const three = ramp(t, wordOf(0, 'tiga') - 0.2, wordOf(0, 'tiga') + 0.6);
 
   return (
     <AbsoluteFill>
       <div style={{position: 'absolute', left: 0, right: 0, top: 96, textAlign: 'center', fontFamily: FONT.head, fontSize: 50, fontWeight: 700, color: C.ink, opacity: head, translate: `0px ${(1 - head) * 14}px`}}>
-        Peta perjalanan: <span style={{color: C.cyan, opacity: 0.35 + 0.65 * imp}}>listrik</span> <span style={{color: C.muted, opacity: 0.35 + 0.65 * three}}>dalam tiga bagian</span>
+        Peta perjalanan: <span style={{color: C.spr, opacity: 0.35 + 0.65 * imp}}>kemagnetan</span> <span style={{color: C.muted, opacity: 0.35 + 0.65 * three}}>dalam tiga bagian</span>
       </div>
       <Stage>
         <Motes x={960} y={520} rx={900} ry={340} n={36} color="pot" opacity={0.4} seed={11} />
@@ -354,12 +359,12 @@ export const Roadmap: React.FC = () => {
             />
             <div style={{fontFamily: FONT.mono, fontSize: 22, color: p.color, letterSpacing: 4}}>BAGIAN {p.n}</div>
             <div style={{fontSize: i === 1 ? 29 : 31, fontWeight: 700, marginTop: 4, letterSpacing: -0.5, whiteSpace: 'nowrap'}}>{p.title}</div>
-            <div style={{height: i === 0 ? 196 : 212}} />
+            <div style={{height: 212}} />
             <div>
               {p.items.map((it, k) => {
                 const q = ramp(t, itemAt(i, k), itemAt(i, k) + 0.6);
                 return (
-                  <div key={it} style={{fontSize: i === 0 ? 25 : 27, color: C.muted, lineHeight: i === 0 ? 1.4 : 1.7, opacity: q, translate: `${(1 - q) * 14}px 0px`, whiteSpace: 'nowrap'}}>
+                  <div key={it} style={{fontSize: 27, color: C.muted, lineHeight: i === 0 ? 1.55 : 1.7, opacity: q, translate: `${(1 - q) * 14}px 0px`, whiteSpace: 'nowrap'}}>
                     <span style={{color: p.color, marginRight: 8}}>—</span>
                     {it}
                   </div>
