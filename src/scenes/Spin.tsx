@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
-import {EASE_IN_OUT, cyc, mix, ramp, rand} from '../anim';
-import {Arrow, Badge, DrawPath, Formula, Frac, Glow, Label, Motes, Note, Ripple, Spark, Stage, Stream, Sub, Sup, TSub, Twinkles, V} from '../components/primitives';
+import {EASE_IN_OUT, mix, ramp, rand} from '../anim';
+import {Arrow, Badge, Formula, Frac, Glow, Label, Motes, Ripple, Spark, Stage, Stream, Sub, Sup, TSub, Twinkles, V} from '../components/primitives';
 import {useScene} from '../SceneContext';
 import {C} from '../theme';
 
@@ -56,7 +56,6 @@ const MuArrow: React.FC<{x: number; y: number; ang: number; len: number; w?: num
 /** Elektron bergaya: bola biru dengan meridian berputar (searah jarum jam dilihat dari atas, μ ke atas). */
 const ESphere: React.FC<{x: number; y: number; r: number; t: number; o?: number; spin?: number}> = ({x, y, r, t, o = 1, spin = 1}) => (
   <g opacity={o}>
-    <circle cx={x} cy={y + r * 1.15} rx={r} r={0} />
     <ellipse cx={x} cy={y + r + 18} rx={r * 0.8} ry={r * 0.12} fill="#000" opacity={0.3} />
     <circle cx={x} cy={y} r={r * 1.6} fill="url(#soft-pot)" />
     <circle cx={x} cy={y} r={r} fill="url(#sp-e)" />
@@ -124,7 +123,7 @@ export const Spin: React.FC = () => {
   const pE = ramp(t, cue(4) - 0.05, cue(4) + 0.7);
 
   // ================= A: loop arus → elektron mengorbit =================
-  const ACX = 600;
+  const ACX = 640;
   const ACY = 520;
   const RX = 230;
   const RY = 72;
@@ -165,7 +164,7 @@ export const Spin: React.FC = () => {
   const BCY = 540;
   const BR = 140;
   const bScale = mix(0.7, 1, bIn);
-  const muB = ramp(t, wordOf(1, 'magnet') - 0.3, wordOf(1, 'magnet') + 0.5);
+  const muB = ramp(t, wordOf(1, 'sendiri') - 0.3, wordOf(1, 'sendiri') + 0.6);
   const lblMuB = ramp(t, wordOf(1, 'satu') - 0.3, wordOf(1, 'satu') + 0.4);
   const cardMu = Math.min(ramp(t, wordOf(1, 'magneton') - 0.2, wordOf(1, 'magneton') + 0.5), 1 - ramp(t, cue(2) - 0.5, cue(2) - 0.05, EASE_IN_OUT));
 
@@ -182,7 +181,7 @@ export const Spin: React.FC = () => {
 
   // ================= D: Stern–Gerlach =================
   const sgStart = wordOf(3, 'menembakkan') - 0.4;
-  const magOn = ramp(t, wordOf(3, 'seragam') - 1.2, wordOf(3, 'seragam') + 0.2);
+  const magOn = ramp(t, cue(3) - 0.1, cue(3) + 0.8);
   const ghost = Math.min(ramp(t, wordOf(3, 'seragam') + 0.1, wordOf(3, 'seragam') + 0.9), 1 - 0.6 * ramp(t, wordOf(3, 'menyebar') - 0.2, wordOf(3, 'menyebar') + 0.5));
   const ghostX = ramp(t, wordOf(3, 'menyebar') - 0.2, wordOf(3, 'menyebar') + 0.4);
   const two = ramp(t, wordOf(3, 'terbelah') - 0.3, wordOf(3, 'terbelah') + 0.5);
@@ -255,7 +254,7 @@ export const Spin: React.FC = () => {
         {/* ================= A ================= */}
         {pA > 0.001 ? (
           <g opacity={pA} transform={`translate(${ACX},${ACY}) scale(${1 + 0.35 * aOut}) translate(${-ACX},${-ACY})`}>
-            <FieldLines cx={ACX} cy={ACY} R={[330, 470, 600]} th0={0.42} o={fieldA * 0.9} />
+            <FieldLines cx={ACX} cy={ACY} R={[280, 390, 500]} th0={0.42} o={fieldA * 0.9} />
             <Glow x={ACX} y={ACY} r={300} color="cyan" opacity={0.35} />
             {/* separuh belakang loop */}
             <path d={ring(0, Math.PI)} fill="none" stroke={C.cyan} strokeWidth={mix(9, 2.5, toAtom)} strokeOpacity={mix(0.75, 0.35, toAtom)} />
@@ -288,15 +287,10 @@ export const Spin: React.FC = () => {
             <Label x={ACX + 40} y={ACY + RY + 40} anchor="start" size={34} color={C.cyan} font="serif" italic>
               I
             </Label>
-            <Label x={ACX - RX - 30} y={ACY + 24} anchor="end" size={26} color={C.pot} opacity={toAtom}>
-              <tspan>
-                e<tspan baselineShift="super" fontSize="0.65em">−</tspan>
-              </tspan>
-            </Label>
             <Label x={ACX} y={ACY + RY + 110} size={28} color={C.ink} opacity={lblOrb}>
               elektron mengorbit = arus melingkar kecil
             </Label>
-            <Label x={ACX + 470} y={ACY - 200} size={30} color={C.spr} font="serif" italic opacity={fieldA}>
+            <Label x={ACX + 400} y={ACY - 190} size={30} color={C.spr} font="serif" italic opacity={fieldA}>
               B
             </Label>
           </g>
@@ -324,10 +318,10 @@ export const Spin: React.FC = () => {
           <g opacity={pB} transform={`translate(${BCX},${BCY}) scale(${bScale}) translate(${-BCX},${-BCY})`}>
             <FieldLines cx={BCX} cy={BCY} R={[300, 420]} th0={0.55} o={muB * 0.85} seed={2} />
             <Motes x={BCX} y={BCY} rx={260} ry={220} n={22} color="pot" opacity={0.5} seed={4} />
-            <Arrow x1={BCX} y1={BCY + 200} x2={BCX} y2={BCY + BR - 6} color="gold" width={9} pulse={false} opacity={muB} />
+            <line x1={BCX} y1={BCY + 200} x2={BCX} y2={BCY + BR - 6} stroke={GOLD} strokeWidth={9} strokeLinecap="round" opacity={muB} />
             <ESphere x={BCX} y={BCY + 2 * Math.sin(t * 1.4)} r={BR} t={t} o={0.93} />
             <Arrow x1={BCX} y1={BCY + BR - 6} x2={BCX} y2={BCY - 230} color="gold" width={9} opacity={muB} />
-            <Label x={BCX} y={BCY + 4} size={46} weight={600} color="#fff" opacity={0.85}>
+            <Label x={BCX - 62} y={BCY + 52} size={46} weight={600} color="#fff" opacity={0.85}>
               <tspan>
                 e<tspan baselineShift="super" fontSize="0.6em">−</tspan>
               </tspan>
@@ -444,10 +438,6 @@ export const Spin: React.FC = () => {
               <Label x={(MX0 + MX1) / 2} y={730} size={30} weight={700} color="#fff">
                 U
               </Label>
-              {/* penampang: ujung runcing di atas, alur di bawah */}
-              <g transform={`translate(${(MX0 + MX1) / 2},${SY + 2})`}>
-                <path d="M-70,-66 L-14,-66 L0,-40 L14,-66 L70,-66" fill="none" stroke="#fff" strokeWidth={2} opacity={0} />
-              </g>
               <Label x={(MX0 + MX1) / 2} y={830} size={26} color={C.spr}>
                 medan magnet tak seragam
               </Label>
@@ -514,7 +504,7 @@ export const Spin: React.FC = () => {
             <MuArrow x={478} y={335 - 140 * (1 - a1)} ang={0} len={34} w={5} o={a1} />
             <MuArrow x={522} y={335 - 140 * (1 - a2)} ang={Math.PI} len={34} w={5} o={a2} />
             <Glow x={500} y={335} r={110} color="gold" opacity={0.5 * a2} />
-            <g opacity={third > 0 && third < 1 ? 1 - ramp(third, 0.75, 1) : 0}>
+            <g opacity={ramp(third, 0, 0.12) * (1 - ramp(third, 0.75, 1))}>
               <MuArrow x={640} y={300 - 30 * (1 - bounce) + 0} ang={0} len={30} w={4} o={0.7} />
             </g>
             <g opacity={thirdX * (1 - ramp(t, wordOf(4, 'asal') + 0.6, wordOf(4, 'asal') + 1.2))}>
@@ -594,10 +584,6 @@ export const Spin: React.FC = () => {
         <Sub>s</Sub> = +<Frac n="1" d="2" /> atau −<Frac n="1" d="2" />
       </Formula>
       <Badge x={410} y={300} text="Stern & Gerlach · 1922" color={C.gold} opacity={yearOn * pD} />
-      <Note x={1390} y={560} p={cardMu * pB * 0} color={C.gold}>
-        {''}
-      </Note>
-      <span style={{display: 'none'}}>{cyc(0) + (DrawPath ? 0 : 1)}</span>
     </AbsoluteFill>
   );
 };

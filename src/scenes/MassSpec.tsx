@@ -1,7 +1,7 @@
 import React from 'react';
 import {AbsoluteFill} from 'remotion';
 import {EASE_IN_OUT, cyc, mix, ramp, rand} from '../anim';
-import {Arrow, DrawPath, Formula, Frac, Glow, Label, Motes, Note, Ripple, Spark, Stage, Stream, Sup, TSup, Twinkles, V} from '../components/primitives';
+import {Arrow, DrawPath, Formula, Frac, Glow, Label, Motes, Note, Ripple, Spark, Stage, Stream, Sup, TSub, TSup, Twinkles, V} from '../components/primitives';
 import {useScene} from '../SceneContext';
 import {C, type Hue} from '../theme';
 
@@ -83,7 +83,7 @@ const Otimes: React.FC<{x: number; y: number; s?: number; o: number}> = ({x, y, 
 );
 
 export const MassSpec: React.FC = () => {
-  const {t, cue, cueEnd, wordOf} = useScene();
+  const {t, cue, wordOf} = useScene();
 
   // ---------- fase ----------
   const draw = ramp(t, -0.3, 2.6, EASE_IN_OUT);
@@ -139,7 +139,7 @@ export const MassSpec: React.FC = () => {
     return [a, b];
   };
   const [n35, n37] = t > sC ? countBy(t) : [0, 0];
-  const [e35, e37] = countBy(cueEnd(3));
+  const [e35, e37] = countBy(wordOf(3, 'banding') + 0.4);
   const norm = Math.max(e35 + e37, n35 + n37, 1);
   const f35 = n35 / norm;
   const f37 = n37 / norm;
@@ -219,11 +219,8 @@ export const MassSpec: React.FC = () => {
           <Label x={FX1 - 14} y={FY0 + 24} anchor="end" size={30} color={C.spr} weight={600} opacity={lblMag}>
             B ⊗
           </Label>
-          <Label x={FX1 + 20} y={YB - 20} anchor="start" size={24} color={C.spr} opacity={lblMag * 0.9}>
-            medan magnet
-          </Label>
-          <Label x={FX1 + 20} y={YB + 12} anchor="start" size={20} color={C.muted} opacity={lblMag * 0.9}>
-            (masuk bidang)
+          <Label x={FX1} y={FY0 - 26} anchor="end" size={23} color={C.spr} opacity={lblMag * 0.9}>
+            medan magnet (masuk bidang)
           </Label>
 
           {/* lintasan pandu */}
@@ -351,7 +348,7 @@ export const MassSpec: React.FC = () => {
         {/* ===== spektrum klorin ===== */}
         {ch1 > 0.001 ? (
           <g opacity={ch1}>
-            <Axes x={gx1} ticks={[30, 35, 40]} minor={[31, 32, 33, 34, 36, 37, 38, 39]} />
+            <Axes x={gx1} ticks={[30, 40]} minor={[31, 32, 33, 34, 35, 36, 37, 38, 39]} />
             {[
               {mz: 35, f: f35, c: 'pot' as Hue, n: n35},
               {mz: 37, f: f37, c: 'heat' as Hue, n: n37},
@@ -403,8 +400,8 @@ export const MassSpec: React.FC = () => {
             })}
             <Label x={gx2(15)} y={gy(0.8) - 30} size={24} color={C.muted} opacity={ramp(t, cue(4) + 1.2, cue(4) + 1.8)}>
               <tspan>
-                CH<TSup>3</TSup>
-                <tspan dx={-2}>⁺</tspan>
+                CH<TSub>3</TSub>
+                <TSup>+</TSup>
               </tspan>
             </Label>
             <Ripple x={gx2(50)} y={gy(1)} p={ramp(t, wordOf(4, 'massa') - 0.1, wordOf(4, 'massa') + 1.4)} r={70} color="gold" />
@@ -418,7 +415,7 @@ export const MassSpec: React.FC = () => {
             </Label>
             <Label x={(GX0 + GX1) / 2} y={GT - 120} size={28} color={C.ink} weight={600} opacity={ch2}>
               <tspan>
-                Spektrum CH<TSup>3</TSup>Cl
+                Spektrum CH<TSub>3</TSub>Cl
                 <tspan fill={C.muted} fontWeight={400}>
                   {' '}
                   (skematis)
@@ -479,7 +476,7 @@ const Axes: React.FC<{x: (mz: number) => number; ticks: number[]; minor: number[
         </text>
       </g>
     ))}
-    <text x={GX1 + 14} y={GB + 66} textAnchor="end" fontFamily="Space Grotesk" fontSize={22} fill={C.muted} fontStyle="italic">
+    <text x={GX1 + 22} y={GB + 8} textAnchor="start" fontFamily="Space Grotesk" fontSize={22} fill={C.muted} fontStyle="italic">
       m/z
     </text>
     <text x={GX0 - 52} y={(GB + GT) / 2} textAnchor="middle" fontFamily="Space Grotesk" fontSize={22} fill={C.muted} transform={`rotate(-90 ${GX0 - 52} ${(GB + GT) / 2})`}>

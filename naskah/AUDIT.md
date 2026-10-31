@@ -9,7 +9,7 @@ Konvensi: μ₀ = 4π×10⁻⁷ T·m/A, arus konvensional, kaidah tangan kanan. 
 | lorentz | F = qvB (v ⊥ B), F ⊥ v → kelajuan tetap; r = mv/(qB); + dan − berbelok berlawanan | ✓ |
 | wireforce | F = BIL: 0,1 T × 5 A × 0,20 m = 0,10 N; kawat sejajar searah tarik, berlawanan tolak | ✓ |
 | induction | Faraday 1831; ε = −N dΦ/dt; Lenz: arus induksi melawan perubahan (kekekalan energi) | ✓ |
-| massspec | r ∝ m/q (pada v atau tegangan percepatan tetap); ³⁵Cl 75,8 % : ³⁷Cl 24,2 % ≈ 3:1 | NIST ✓ |
+| massspec | r = mv/(qB) → r ∝ m/q pada kelajuan sama (setelah penyaring kecepatan; kartu menyebut "kelajuan sama"); pada tegangan percepatan tetap r ∝ √(m/q) — urutan tetap sama; ³⁵Cl 75,8 % : ³⁷Cl 24,2 % ≈ 3:1 | NIST ✓ |
 | spin | μ_B = 9,274×10⁻²⁴ J/T; momen spin elektron ≈ 1,001 μ_B ("sekitar satu magneton Bohr"); Stern–Gerlach 1922 berkas Ag terbelah dua; Pauli: dua elektron per orbital (spin berpasangan); feromagnetisme dari spin tak berpasangan | ✓ |
 | nmr | γ_p/2π = 42,577 MHz/T → 9,4 T: 400,2 MHz ("≈ 400 MHz"); perisai elektron → pergeseran kimia | CODATA ✓ |
 | motor | torsi pada kumparan, komutator membalik arus tiap ½ putaran | ✓ |
