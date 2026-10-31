@@ -67,53 +67,48 @@ const SC: P = [700, 500];
 const SL = 255; // setengah panjang
 const SR = 118; // jari-jari
 const NT = 9;
-const POLE_O = Array.from({length: 9}, (_, i) => -0.92 * SR + (1.84 * SR * i) / 8);
+// medan penampang kumparan: kawat atas ⊙, bawah ⊗ (arus 2D), B_svg = s·(dy, −dx)/r² → di dalam ke kanan (menuju U)
+const WIRES: [number, number, number][] = [];
+for (let i = 0; i < 40; i++) {
+  const x = SC[0] - SL + ((i + 0.5) * 2 * SL) / 40;
+  WIRES.push([x, SC[1] - SR, 1], [x, SC[1] + SR, -1]);
+}
 const sfield = (x: number, y: number): P => {
   let bx = 0;
   let by = 0;
-  for (const o of POLE_O) {
-    for (const [px, q] of [
-      [SC[0] + SL, 1],
-      [SC[0] - SL, -1],
-    ] as const) {
-      const dx = x - px;
-      const dy = y - (SC[1] + o);
-      const r2 = dx * dx + dy * dy + 30;
-      const r3 = r2 * Math.sqrt(r2);
-      bx += (q * dx) / r3;
-      by += (q * dy) / r3;
-    }
+  for (const [wx, wy, s] of WIRES) {
+    const dx = x - wx;
+    const dy = y - wy;
+    const r2 = dx * dx + dy * dy + 25;
+    bx += (s * dy) / r2;
+    by += (-s * dx) / r2;
   }
   return [bx, by];
 };
 const traceSol = (o: number): P[] => {
-  let x = SC[0] + SL + 3;
-  let y = SC[1] + o;
+  const x0 = SC[0];
+  const y0 = SC[1] + o;
+  let x = x0;
+  let y = y0;
   const pts: P[] = [[x, y]];
-  const h = 5;
-  for (let i = 0; i < 1400; i++) {
+  const h = 4;
+  for (let i = 0; i < 4000; i++) {
     const [ax, ay] = sfield(x, y);
     const m1 = Math.hypot(ax, ay);
     const [bx, by] = sfield(x + (0.5 * h * ax) / m1, y + (0.5 * h * ay) / m1);
     const m2 = Math.hypot(bx, by);
     x += (h * bx) / m2;
     y += (h * by) / m2;
-    if (x < SC[0] - SL + 2 && x > SC[0] - SL - 40 && Math.abs(y - SC[1]) < SR) {
-      pts.push([SC[0] - SL, y]);
+    if (i > 60 && Math.hypot(x - x0, y - y0) < 6) {
+      pts.push([x0, y0]);
       break;
     }
     if (i % 3 === 2) pts.push([x, y]);
-    if (x < 40 || x > 1500 || y < 60 || y > 1000) break;
   }
   return pts;
 };
-const SOL_O = [-100, -64, -28, 28, 64, 100];
-const SOL_LOOPS: P[][] = SOL_O.map((o) => {
-  const out = traceSol(o);
-  const endY = out[out.length - 1][1];
-  // dalam kumparan: lurus dari muka kiri ke muka kanan (kiri → kanan = menuju U)
-  return [[SC[0] - SL, endY] as P, [SC[0] + SL, SC[1] + o] as P, ...out];
-});
+const SOL_O = [-66, -40, -15, 15, 40, 66];
+const SOL_LOOPS: P[][] = SOL_O.map(traceSol);
 const SOL_PATHS = SOL_LOOPS.map((l) => smoothPath(l));
 
 /* ---------- penjepit kertas ---------- */
@@ -180,7 +175,7 @@ export const Oersted: React.FC = () => {
   const poleOp = ramp(t, tBat - 0.6, tBat + 0.2);
   const ghost = slot(t, wordOf(4, 'persis') - 0.3, wordOf(4, 'elektromagnet') + 0.4, 0.6, 0.8);
   const nailOp = ramp(t, wordOf(4, 'persis') + 0.2, wordOf(4, 'persis') + 1.0);
-  const tMag = wordOf(4, 'elektromagnet') - 0.5;
+  const tMag = wordOf(4, 'inilah') - 0.1;
   const mag = ramp(t, tMag - 0.2, tMag + 0.3);
   const NX = 1490;
 
@@ -219,7 +214,7 @@ export const Oersted: React.FC = () => {
             {['U', 'T', 'S', 'B'].map((l, i) => {
               const a = -Math.PI / 2 + (i * Math.PI) / 2;
               return (
-                <Label key={l} x={WX + Math.cos(a) * 205} y={CY + Math.sin(a) * 205} size={30} color={l === 'U' ? C.heat : C.muted} weight={700}>
+                <Label key={l} x={WX + Math.cos(a) * 205 + (i % 2 === 0 ? 30 : 0)} y={CY + Math.sin(a) * 205} size={30} color={l === 'U' ? C.heat : C.muted} weight={700}>
                   {l}
                 </Label>
               );
@@ -356,7 +351,7 @@ export const Oersted: React.FC = () => {
               </g>
             ))}
             {/* kawat tegak, arus ke atas */}
-            <line x1={HX} y1={215} x2={HX} y2={860} stroke="url(#oe-cu)" strokeWidth={14} strokeLinecap="round" />
+            <line x1={HX} y1={215} x2={HX} y2={860} stroke="#c98552" strokeWidth={14} strokeLinecap="round" />
             <line x1={HX} y1={215} x2={HX} y2={860} stroke={C.cyan} strokeWidth={30} opacity={0.12} />
             {Array.from({length: 8}, (_, j) => {
               const ph = fr(t * 0.35 + j / 8);
