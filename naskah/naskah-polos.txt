@@ -1,0 +1,106 @@
+[00:00] Kompas, aurora, dan MRI
+
+Jarum kompas selalu menunjuk ke utara, di mana pun kita berdiri di Bumi.
+Di langit kutub, tirai cahaya hijau dan merah menari: aurora.
+Dan di rumah sakit, mesin MRI memotret bagian dalam tubuh tanpa satu sayatan pun.
+Ketiganya digerakkan oleh satu hal:
+medan magnet.
+Dan yang mengejutkan, magnet ternyata hanyalah listrik yang bergerak. Bahkan elektron dan inti atom pun adalah magnet kecil.
+
+[00:41] Peta video
+
+Video ini membahas kemagnetan dalam tiga bagian.
+Bagian pertama, konsep: kutub dan medan magnet, arus menghasilkan medan, gaya Lorentz, gaya pada kawat, dan induksi elektromagnetik.
+Bagian kedua, magnet di dunia kimia: spektrometer massa, momen magnet elektron dan spin, serta resonansi magnetik inti.
+Bagian ketiga, penerapan: motor listrik, generator, dan MRI.
+
+[01:13] Bab 01 — Kutub dan medan magnet
+
+Setiap magnet punya dua kutub, utara dan selatan. Kutub sejenis tolak-menolak, kutub berlawanan tarik-menarik.
+Potong sebuah magnet batang menjadi dua, dan kita tidak mendapat kutub utara saja. Setiap potongan langsung punya utara dan selatan sendiri.
+Serbuk besi di sekitar magnet menggambarkan garis medan magnet: keluar dari kutub utara dan masuk ke kutub selatan.
+Bumi sendiri adalah magnet raksasa. Jarum kompas berbalik sejajar dengan medannya, sekitar lima puluh mikrotesla di permukaan.
+
+[01:53] Bab 02 — Arus menghasilkan medan magnet
+
+Pada tahun delapan belas dua puluh, Hans Christian Ørsted melihat jarum kompas bergoyang saat kawat di dekatnya dialiri arus.
+Arus listrik menghasilkan medan magnet. Garis medannya melingkari kawat.
+Arahnya mengikuti kaidah tangan kanan: ibu jari searah arus, jari-jari yang menggenggam menunjukkan arah medan.
+Besarnya B sama dengan mu nol I per dua pi r. Arus sepuluh ampere menghasilkan dua puluh mikrotesla pada jarak sepuluh sentimeter, hampir setara medan Bumi.
+Gulung kawat menjadi kumparan, dan medan dari setiap lilitan saling menguatkan. Kumparan berarus berperilaku persis seperti magnet batang: inilah elektromagnet.
+
+[02:42] Bab 03 — Gaya Lorentz pada muatan bergerak
+
+Medan magnet tidak mendorong muatan yang diam. Ia hanya bekerja pada muatan yang bergerak.
+Gayanya F sama dengan q v B, dan arahnya tegak lurus terhadap kecepatan sekaligus terhadap medan.
+Karena gayanya selalu tegak lurus gerak, medan magnet tidak mengubah kelajuan, hanya membelokkan arah.
+Akibatnya muatan bergerak melingkar, dengan jari-jari r sama dengan m v per q B. Partikel yang lebih berat berbelok lebih lebar.
+Muatan positif dan negatif berbelok ke arah yang berlawanan.
+
+[03:21] Bab 04 — Gaya pada kawat berarus
+
+Kawat berarus berisi banyak muatan bergerak, jadi kawat itu pun merasakan gaya di dalam medan magnet.
+Besarnya F sama dengan B I L: medan kali arus kali panjang kawat.
+Kawat sepanjang dua puluh sentimeter dengan arus lima ampere di medan nol koma satu tesla terdorong dengan gaya nol koma satu newton.
+Dua kawat sejajar yang arusnya searah saling tarik-menarik, dan yang berlawanan arah saling tolak.
+
+[03:54] Bab 05 — Induksi elektromagnetik
+
+Bila listrik bisa menghasilkan magnet, bisakah magnet menghasilkan listrik? Michael Faraday menjawabnya pada tahun delapan belas tiga puluh satu.
+Dorong magnet masuk ke kumparan, dan jarum galvanometer menyimpang. Tarik keluar, jarumnya menyimpang ke arah sebaliknya.
+Yang penting bukan magnetnya, melainkan perubahan fluks magnet yang menembus kumparan. Makin cepat berubah, makin besar tegangannya.
+Inilah hukum Faraday: tegangan induksi sama dengan minus N kali laju perubahan fluks.
+Tanda minus adalah hukum Lenz: arus induksi selalu melawan perubahan yang menimbulkannya. Kalau tidak, energi akan muncul dari ketiadaan.
+
+[04:42] Bab 06 — Spektrometer massa
+
+Sekarang pakai gaya Lorentz untuk menimbang molekul.
+Dalam spektrometer massa, molekul diionkan, dipercepat, lalu ditembakkan ke dalam medan magnet.
+Jari-jari lintasannya sebanding dengan massa per muatan. Ion yang ringan berbelok tajam, ion yang berat berbelok lebar.
+Klorin alam berisi dua isotop, klor tiga puluh lima dan klor tiga puluh tujuh, dengan perbandingan sekitar tiga banding satu. Spektrometer memisahkannya menjadi dua puncak.
+Dari pola puncak-puncak itu kimiawan menentukan massa molekul dan mengenali senyawa yang tidak diketahui.
+
+[05:25] Bab 07 — Elektron: magnet terkecil
+
+Arus yang melingkar menghasilkan medan magnet. Elektron yang mengorbit inti juga merupakan arus melingkar kecil.
+Tetapi elektron punya sifat yang lebih aneh: ia sendiri adalah magnet kecil, dengan momen magnet sekitar satu magneton Bohr.
+Sifat ini disebut spin. Saat diukur di dalam medan magnet, spin elektron hanya bisa menghadap ke salah satu dari dua arah: atas atau bawah.
+Pada tahun sembilan belas dua puluh dua, Stern dan Gerlach menembakkan berkas atom perak melewati medan magnet tak seragam. Berkas itu terbelah menjadi tepat dua, bukan menyebar.
+Spin inilah yang membuat setiap orbital hanya bisa diisi dua elektron berpasangan, dan inilah asal sifat magnet bahan seperti besi.
+
+[06:18] Bab 08 — Resonansi magnetik inti
+
+Inti atom hidrogen, yaitu proton, juga punya spin dan berperilaku seperti magnet kecil.
+Di dalam medan magnet kuat, spin proton terbagi menjadi dua tingkat energi: searah medan sedikit lebih rendah, berlawanan sedikit lebih tinggi.
+Gelombang radio dengan frekuensi yang pas membalik spin itu. Pada medan sembilan koma empat tesla, frekuensi resonansinya sekitar empat ratus megahertz.
+Elektron di sekitar inti sedikit melindunginya dari medan luar, jadi proton di lingkungan kimia berbeda beresonansi pada frekuensi yang sedikit berbeda.
+Pergeseran kecil inilah yang dibaca kimiawan dalam spektrum NMR untuk mengetahui di mana setiap atom hidrogen berada dalam molekul.
+
+[07:10] Bab 09 — Motor listrik
+
+Letakkan kumparan berarus di antara kutub magnet. Satu sisi kumparan didorong ke atas, sisi lainnya ke bawah: kumparan berputar.
+Setiap setengah putaran, komutator membalik arah arus, sehingga putarannya terus searah.
+Dari kipas angin, mesin cuci, sampai mobil listrik, motor mengubah energi listrik menjadi gerak lewat gaya pada kawat berarus.
+
+[07:39] Bab 10 — Generator
+
+Generator adalah motor yang dibalik. Putar kumparan di dalam medan magnet, dan fluks yang menembusnya terus berubah.
+Perubahan fluks itu menghasilkan tegangan bolak-balik yang naik-turun seperti gelombang sinus.
+Di Indonesia, listrik PLN berfrekuensi lima puluh hertz: tegangannya berbalik arah bolak-balik lima puluh kali setiap detik.
+Uap, air terjun, atau angin hanya bertugas memutar generator. Hukum Faraday yang mengubah putaran itu menjadi listrik.
+
+[08:15] Bab 11 — MRI: NMR untuk tubuh
+
+MRI adalah resonansi magnetik inti yang diterapkan pada tubuh manusia.
+Tubuh kita sebagian besar air, dan setiap molekul air membawa dua proton.
+Magnet superkonduktor berkekuatan satu koma lima sampai tiga tesla, puluhan ribu kali medan Bumi, menyelaraskan spin proton itu. Pada satu koma lima tesla, frekuensi resonansinya sekitar enam puluh empat megahertz.
+Kumparan gradien membuat medannya sedikit berbeda di setiap titik, sehingga setiap titik tubuh beresonansi pada frekuensinya sendiri. Dari sinyal itulah gambar disusun, tanpa radiasi pengion.
+
+[09:01] Bab 12 — Rangkuman
+
+Mari rangkum.
+Magnet selalu punya dua kutub, dan medannya keluar dari utara masuk ke selatan.
+Arus menghasilkan medan magnet, dan medan magnet mendorong muatan bergerak dengan gaya Lorentz yang tegak lurus geraknya.
+Perubahan fluks magnet menghasilkan tegangan induksi: hukum Faraday dan hukum Lenz.
+Di dunia kimia, gaya Lorentz menimbang molekul, spin elektron mengatur pengisian orbital, dan spin proton menjadi dasar NMR dan MRI.
+Jadi, setiap kali melihat magnet, tanyakan: muatan apa yang sedang bergerak, dan bagaimana fluksnya berubah?

@@ -1,0 +1,65 @@
+hook-00	Jarum kompas selalu menunjuk ke utara, di mana pun kita berdiri di Bumi.
+hook-01	Di langit kutub, tirai cahaya hijau dan merah menari: aurora.
+hook-02	Dan di rumah sakit, mesin em-er-i memotret bagian dalam tubuh tanpa satu sayatan pun.
+hook-03	Ketiganya digerakkan oleh satu hal:
+hook-04	medan magnet.
+hook-05	Dan yang mengejutkan, magnet ternyata hanyalah listrik yang bergerak. Bahkan elektron dan inti atom pun adalah magnet kecil.
+roadmap-00	Video ini membahas kemagnetan dalam tiga bagian.
+roadmap-01	Bagian pertama, konsep: kutub dan medan magnet, arus menghasilkan medan, gaya Lorens, gaya pada kawat, dan induksi elektromagnetik.
+roadmap-02	Bagian kedua, magnet di dunia kimia: spektrometer massa, momen magnet elektron dan spin, serta resonansi magnetik inti.
+roadmap-03	Bagian ketiga, penerapan: motor listrik, generator, dan em-er-i.
+poles-00	Setiap magnet punya dua kutub, utara dan selatan. Kutub sejenis tolak-menolak, kutub berlawanan tarik-menarik.
+poles-01	Potong sebuah magnet batang menjadi dua, dan kita tidak mendapat kutub utara saja. Setiap potongan langsung punya utara dan selatan sendiri.
+poles-02	Serbuk besi di sekitar magnet menggambarkan garis medan magnet: keluar dari kutub utara dan masuk ke kutub selatan.
+poles-03	Bumi sendiri adalah magnet raksasa. Jarum kompas berbalik sejajar dengan medannya, sekitar lima puluh mikrotesla di permukaan.
+oersted-00	Pada tahun delapan belas dua puluh, Hans Kristian Ersted melihat jarum kompas bergoyang saat kawat di dekatnya dialiri arus.
+oersted-01	Arus listrik menghasilkan medan magnet. Garis medannya melingkari kawat.
+oersted-02	Arahnya mengikuti kaidah tangan kanan: ibu jari searah arus, jari-jari yang menggenggam menunjukkan arah medan.
+oersted-03	Besarnya B sama dengan mu nol I per dua pi er. Arus sepuluh ampere menghasilkan dua puluh mikrotesla pada jarak sepuluh sentimeter, hampir setara medan Bumi.
+oersted-04	Gulung kawat menjadi kumparan, dan medan dari setiap lilitan saling menguatkan. Kumparan berarus berperilaku persis seperti magnet batang: inilah elektromagnet.
+lorentz-00	Medan magnet tidak mendorong muatan yang diam. Ia hanya bekerja pada muatan yang bergerak.
+lorentz-01	Gayanya ef sama dengan q fe B, dan arahnya tegak lurus terhadap kecepatan sekaligus terhadap medan.
+lorentz-02	Karena gayanya selalu tegak lurus gerak, medan magnet tidak mengubah kelajuan, hanya membelokkan arah.
+lorentz-03	Akibatnya muatan bergerak melingkar, dengan jari-jari er sama dengan em fe per q B. Partikel yang lebih berat berbelok lebih lebar.
+lorentz-04	Muatan positif dan negatif berbelok ke arah yang berlawanan.
+wireforce-00	Kawat berarus berisi banyak muatan bergerak, jadi kawat itu pun merasakan gaya di dalam medan magnet.
+wireforce-01	Besarnya ef sama dengan B I el: medan kali arus kali panjang kawat.
+wireforce-02	Kawat sepanjang dua puluh sentimeter dengan arus lima ampere di medan nol koma satu tesla terdorong dengan gaya nol koma satu newton.
+wireforce-03	Dua kawat sejajar yang arusnya searah saling tarik-menarik, dan yang berlawanan arah saling tolak.
+induction-00	Bila listrik bisa menghasilkan magnet, bisakah magnet menghasilkan listrik? Michael Faradei menjawabnya pada tahun delapan belas tiga puluh satu.
+induction-01	Dorong magnet masuk ke kumparan, dan jarum galvanometer menyimpang. Tarik keluar, jarumnya menyimpang ke arah sebaliknya.
+induction-02	Yang penting bukan magnetnya, melainkan perubahan fluks magnet yang menembus kumparan. Makin cepat berubah, makin besar tegangannya.
+induction-03	Inilah hukum Faradei: tegangan induksi sama dengan minus N kali laju perubahan fluks.
+induction-04	Tanda minus adalah hukum Lens: arus induksi selalu melawan perubahan yang menimbulkannya. Kalau tidak, energi akan muncul dari ketiadaan.
+massspec-00	Sekarang pakai gaya Lorens untuk menimbang molekul.
+massspec-01	Dalam spektrometer massa, molekul diionkan, dipercepat, lalu ditembakkan ke dalam medan magnet.
+massspec-02	Jari-jari lintasannya sebanding dengan massa per muatan. Ion yang ringan berbelok tajam, ion yang berat berbelok lebar.
+massspec-03	Klorin alam berisi dua isotop, klor tiga puluh lima dan klor tiga puluh tujuh, dengan perbandingan sekitar tiga banding satu. Spektrometer memisahkannya menjadi dua puncak.
+massspec-04	Dari pola puncak-puncak itu kimiawan menentukan massa molekul dan mengenali senyawa yang tidak diketahui.
+spin-00	Arus yang melingkar menghasilkan medan magnet. Elektron yang mengorbit inti juga merupakan arus melingkar kecil.
+spin-01	Tetapi elektron punya sifat yang lebih aneh: ia sendiri adalah magnet kecil, dengan momen magnet sekitar satu magneton Bohr.
+spin-02	Sifat ini disebut spin. Saat diukur di dalam medan magnet, spin elektron hanya bisa menghadap ke salah satu dari dua arah: atas atau bawah.
+spin-03	Pada tahun sembilan belas dua puluh dua, Stern dan Gerlakh menembakkan berkas atom perak melewati medan magnet tak seragam. Berkas itu terbelah menjadi tepat dua, bukan menyebar.
+spin-04	Spin inilah yang membuat setiap orbital hanya bisa diisi dua elektron berpasangan, dan inilah asal sifat magnet bahan seperti besi.
+nmr-00	Inti atom hidrogen, yaitu proton, juga punya spin dan berperilaku seperti magnet kecil.
+nmr-01	Di dalam medan magnet kuat, spin proton terbagi menjadi dua tingkat energi: searah medan sedikit lebih rendah, berlawanan sedikit lebih tinggi.
+nmr-02	Gelombang radio dengan frekuensi yang pas membalik spin itu. Pada medan sembilan koma empat tesla, frekuensi resonansinya sekitar empat ratus megahertz.
+nmr-03	Elektron di sekitar inti sedikit melindunginya dari medan luar, jadi proton di lingkungan kimia berbeda beresonansi pada frekuensi yang sedikit berbeda.
+nmr-04	Pergeseran kecil inilah yang dibaca kimiawan dalam spektrum en-em-er untuk mengetahui di mana setiap atom hidrogen berada dalam molekul.
+motor-00	Letakkan kumparan berarus di antara kutub magnet. Satu sisi kumparan didorong ke atas, sisi lainnya ke bawah: kumparan berputar.
+motor-01	Setiap setengah putaran, komutator membalik arah arus, sehingga putarannya terus searah.
+motor-02	Dari kipas angin, mesin cuci, sampai mobil listrik, motor mengubah energi listrik menjadi gerak lewat gaya pada kawat berarus.
+generator-00	Generator adalah motor yang dibalik. Putar kumparan di dalam medan magnet, dan fluks yang menembusnya terus berubah.
+generator-01	Perubahan fluks itu menghasilkan tegangan bolak-balik yang naik-turun seperti gelombang sinus.
+generator-02	Di Indonesia, listrik pe-el-en berfrekuensi lima puluh hertz: tegangannya berbalik arah bolak-balik lima puluh kali setiap detik.
+generator-03	Uap, air terjun, atau angin hanya bertugas memutar generator. Hukum Faradei yang mengubah putaran itu menjadi listrik.
+mri-00	em-er-i adalah resonansi magnetik inti yang diterapkan pada tubuh manusia.
+mri-01	Tubuh kita sebagian besar air, dan setiap molekul air membawa dua proton.
+mri-02	Magnet superkonduktor berkekuatan satu koma lima sampai tiga tesla, puluhan ribu kali medan Bumi, menyelaraskan spin proton itu. Pada satu koma lima tesla, frekuensi resonansinya sekitar enam puluh empat megahertz.
+mri-03	Kumparan gradien membuat medannya sedikit berbeda di setiap titik, sehingga setiap titik tubuh beresonansi pada frekuensinya sendiri. Dari sinyal itulah gambar disusun, tanpa radiasi pengion.
+recap-00	Mari rangkum.
+recap-01	Magnet selalu punya dua kutub, dan medannya keluar dari utara masuk ke selatan.
+recap-02	Arus menghasilkan medan magnet, dan medan magnet mendorong muatan bergerak dengan gaya Lorens yang tegak lurus geraknya.
+recap-03	Perubahan fluks magnet menghasilkan tegangan induksi: hukum Faradei dan hukum Lens.
+recap-04	Di dunia kimia, gaya Lorens menimbang molekul, spin elektron mengatur pengisian orbital, dan spin proton menjadi dasar en-em-er dan em-er-i.
+recap-05	Jadi, setiap kali melihat magnet, tanyakan: muatan apa yang sedang bergerak, dan bagaimana fluksnya berubah?

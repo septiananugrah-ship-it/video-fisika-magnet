@@ -1,0 +1,259 @@
+1
+00:00:01,600 --> 00:00:07,406
+Jarum kompas selalu menunjuk ke utara, di mana pun kita berdiri di Bumi.
+
+2
+00:00:07,406 --> 00:00:12,588
+Di langit kutub, tirai cahaya hijau dan merah menari: aurora.
+
+3
+00:00:12,588 --> 00:00:19,060
+Dan di rumah sakit, mesin MRI memotret bagian dalam tubuh tanpa satu sayatan pun.
+
+4
+00:00:19,060 --> 00:00:21,912
+Ketiganya digerakkan oleh satu hal:
+
+5
+00:00:21,912 --> 00:00:23,567
+medan magnet.
+
+6
+00:00:23,567 --> 00:00:32,137
+Dan yang mengejutkan, magnet ternyata hanyalah listrik yang bergerak. Bahkan elektron dan inti atom pun adalah magnet kecil.
+
+7
+00:00:42,133 --> 00:00:46,418
+Video ini membahas kemagnetan dalam tiga bagian.
+
+8
+00:00:46,418 --> 00:00:56,551
+Bagian pertama, konsep: kutub dan medan magnet, arus menghasilkan medan, gaya Lorentz, gaya pada kawat, dan induksi elektromagnetik.
+
+9
+00:00:56,551 --> 00:01:05,907
+Bagian kedua, magnet di dunia kimia: spektrometer massa, momen magnet elektron dan spin, serta resonansi magnetik inti.
+
+10
+00:01:05,907 --> 00:01:11,778
+Bagian ketiga, penerapan: motor listrik, generator, dan MRI.
+
+11
+00:01:14,367 --> 00:01:23,225
+Setiap magnet punya dua kutub, utara dan selatan. Kutub sejenis tolak-menolak, kutub berlawanan tarik-menarik.
+
+12
+00:01:23,225 --> 00:01:33,770
+Potong sebuah magnet batang menjadi dua, dan kita tidak mendapat kutub utara saja. Setiap potongan langsung punya utara dan selatan sendiri.
+
+13
+00:01:33,770 --> 00:01:42,149
+Serbuk besi di sekitar magnet menggambarkan garis medan magnet: keluar dari kutub utara dan masuk ke kutub selatan.
+
+14
+00:01:42,149 --> 00:01:51,851
+Bumi sendiri adalah magnet raksasa. Jarum kompas berbalik sejajar dengan medannya, sekitar lima puluh mikrotesla di permukaan.
+
+15
+00:01:54,467 --> 00:02:03,291
+Pada tahun delapan belas dua puluh, Hans Christian Ørsted melihat jarum kompas bergoyang saat kawat di dekatnya dialiri arus.
+
+16
+00:02:03,291 --> 00:02:08,731
+Arus listrik menghasilkan medan magnet. Garis medannya melingkari kawat.
+
+17
+00:02:08,731 --> 00:02:17,121
+Arahnya mengikuti kaidah tangan kanan: ibu jari searah arus, jari-jari yang menggenggam menunjukkan arah medan.
+
+18
+00:02:17,121 --> 00:02:28,987
+Besarnya B sama dengan mu nol I per dua pi r. Arus sepuluh ampere menghasilkan dua puluh mikrotesla pada jarak sepuluh sentimeter, hampir setara medan Bumi.
+
+19
+00:02:28,987 --> 00:02:41,084
+Gulung kawat menjadi kumparan, dan medan dari setiap lilitan saling menguatkan. Kumparan berarus berperilaku persis seperti magnet batang: inilah elektromagnet.
+
+20
+00:02:43,700 --> 00:02:50,649
+Medan magnet tidak mendorong muatan yang diam. Ia hanya bekerja pada muatan yang bergerak.
+
+21
+00:02:50,649 --> 00:02:58,153
+Gayanya F sama dengan q v B, dan arahnya tegak lurus terhadap kecepatan sekaligus terhadap medan.
+
+22
+00:02:58,153 --> 00:03:06,045
+Karena gayanya selalu tegak lurus gerak, medan magnet tidak mengubah kelajuan, hanya membelokkan arah.
+
+23
+00:03:06,045 --> 00:03:15,647
+Akibatnya muatan bergerak melingkar, dengan jari-jari r sama dengan m v per q B. Partikel yang lebih berat berbelok lebih lebar.
+
+24
+00:03:15,647 --> 00:03:20,409
+Muatan positif dan negatif berbelok ke arah yang berlawanan.
+
+25
+00:03:23,000 --> 00:03:30,692
+Kawat berarus berisi banyak muatan bergerak, jadi kawat itu pun merasakan gaya di dalam medan magnet.
+
+26
+00:03:30,692 --> 00:03:36,052
+Besarnya F sama dengan B I L: medan kali arus kali panjang kawat.
+
+27
+00:03:36,052 --> 00:03:45,431
+Kawat sepanjang dua puluh sentimeter dengan arus lima ampere di medan nol koma satu tesla terdorong dengan gaya nol koma satu newton.
+
+28
+00:03:45,431 --> 00:03:52,658
+Dua kawat sejajar yang arusnya searah saling tarik-menarik, dan yang berlawanan arah saling tolak.
+
+29
+00:03:55,267 --> 00:04:05,623
+Bila listrik bisa menghasilkan magnet, bisakah magnet menghasilkan listrik? Michael Faraday menjawabnya pada tahun delapan belas tiga puluh satu.
+
+30
+00:04:05,623 --> 00:04:14,482
+Dorong magnet masuk ke kumparan, dan jarum galvanometer menyimpang. Tarik keluar, jarumnya menyimpang ke arah sebaliknya.
+
+31
+00:04:14,482 --> 00:04:23,529
+Yang penting bukan magnetnya, melainkan perubahan fluks magnet yang menembus kumparan. Makin cepat berubah, makin besar tegangannya.
+
+32
+00:04:23,529 --> 00:04:30,209
+Inilah hukum Faraday: tegangan induksi sama dengan minus N kali laju perubahan fluks.
+
+33
+00:04:30,209 --> 00:04:41,175
+Tanda minus adalah hukum Lenz: arus induksi selalu melawan perubahan yang menimbulkannya. Kalau tidak, energi akan muncul dari ketiadaan.
+
+34
+00:04:43,767 --> 00:04:47,674
+Sekarang pakai gaya Lorentz untuk menimbang molekul.
+
+35
+00:04:47,674 --> 00:04:55,012
+Dalam spektrometer massa, molekul diionkan, dipercepat, lalu ditembakkan ke dalam medan magnet.
+
+36
+00:04:55,012 --> 00:05:03,670
+Jari-jari lintasannya sebanding dengan massa per muatan. Ion yang ringan berbelok tajam, ion yang berat berbelok lebar.
+
+37
+00:05:03,670 --> 00:05:16,114
+Klorin alam berisi dua isotop, klor tiga puluh lima dan klor tiga puluh tujuh, dengan perbandingan sekitar tiga banding satu. Spektrometer memisahkannya menjadi dua puncak.
+
+38
+00:05:16,114 --> 00:05:24,272
+Dari pola puncak-puncak itu kimiawan menentukan massa molekul dan mengenali senyawa yang tidak diketahui.
+
+39
+00:05:26,867 --> 00:05:34,759
+Arus yang melingkar menghasilkan medan magnet. Elektron yang mengorbit inti juga merupakan arus melingkar kecil.
+
+40
+00:05:34,759 --> 00:05:43,904
+Tetapi elektron punya sifat yang lebih aneh: ia sendiri adalah magnet kecil, dengan momen magnet sekitar satu magneton Bohr.
+
+41
+00:05:43,904 --> 00:05:54,580
+Sifat ini disebut spin. Saat diukur di dalam medan magnet, spin elektron hanya bisa menghadap ke salah satu dari dua arah: atas atau bawah.
+
+42
+00:05:54,580 --> 00:06:07,401
+Pada tahun sembilan belas dua puluh dua, Stern dan Gerlach menembakkan berkas atom perak melewati medan magnet tak seragam. Berkas itu terbelah menjadi tepat dua, bukan menyebar.
+
+43
+00:06:07,401 --> 00:06:17,269
+Spin inilah yang membuat setiap orbital hanya bisa diisi dua elektron berpasangan, dan inilah asal sifat magnet bahan seperti besi.
+
+44
+00:06:19,867 --> 00:06:26,438
+Inti atom hidrogen, yaitu proton, juga punya spin dan berperilaku seperti magnet kecil.
+
+45
+00:06:26,438 --> 00:06:36,915
+Di dalam medan magnet kuat, spin proton terbagi menjadi dua tingkat energi: searah medan sedikit lebih rendah, berlawanan sedikit lebih tinggi.
+
+46
+00:06:36,915 --> 00:06:48,026
+Gelombang radio dengan frekuensi yang pas membalik spin itu. Pada medan sembilan koma empat tesla, frekuensi resonansinya sekitar empat ratus megahertz.
+
+47
+00:06:48,026 --> 00:06:59,304
+Elektron di sekitar inti sedikit melindunginya dari medan luar, jadi proton di lingkungan kimia berbeda beresonansi pada frekuensi yang sedikit berbeda.
+
+48
+00:06:59,304 --> 00:07:09,538
+Pergeseran kecil inilah yang dibaca kimiawan dalam spektrum NMR untuk mengetahui di mana setiap atom hidrogen berada dalam molekul.
+
+49
+00:07:12,133 --> 00:07:21,867
+Letakkan kumparan berarus di antara kutub magnet. Satu sisi kumparan didorong ke atas, sisi lainnya ke bawah: kumparan berputar.
+
+50
+00:07:21,867 --> 00:07:29,004
+Setiap setengah putaran, komutator membalik arah arus, sehingga putarannya terus searah.
+
+51
+00:07:29,004 --> 00:07:38,329
+Dari kipas angin, mesin cuci, sampai mobil listrik, motor mengubah energi listrik menjadi gerak lewat gaya pada kawat berarus.
+
+52
+00:07:40,933 --> 00:07:49,214
+Generator adalah motor yang dibalik. Putar kumparan di dalam medan magnet, dan fluks yang menembusnya terus berubah.
+
+53
+00:07:49,214 --> 00:07:55,575
+Perubahan fluks itu menghasilkan tegangan bolak-balik yang naik-turun seperti gelombang sinus.
+
+54
+00:07:55,575 --> 00:08:05,285
+Di Indonesia, listrik PLN berfrekuensi lima puluh hertz: tegangannya berbalik arah bolak-balik lima puluh kali setiap detik.
+
+55
+00:08:05,285 --> 00:08:14,433
+Uap, air terjun, atau angin hanya bertugas memutar generator. Hukum Faraday yang mengubah putaran itu menjadi listrik.
+
+56
+00:08:17,033 --> 00:08:23,016
+MRI adalah resonansi magnetik inti yang diterapkan pada tubuh manusia.
+
+57
+00:08:23,016 --> 00:08:28,822
+Tubuh kita sebagian besar air, dan setiap molekul air membawa dua proton.
+
+58
+00:08:28,822 --> 00:08:44,862
+Magnet superkonduktor berkekuatan satu koma lima sampai tiga tesla, puluhan ribu kali medan Bumi, menyelaraskan spin proton itu. Pada satu koma lima tesla, frekuensi resonansinya sekitar enam puluh empat megahertz.
+
+59
+00:08:44,862 --> 00:08:59,669
+Kumparan gradien membuat medannya sedikit berbeda di setiap titik, sehingga setiap titik tubuh beresonansi pada frekuensinya sendiri. Dari sinyal itulah gambar disusun, tanpa radiasi pengion.
+
+60
+00:09:02,067 --> 00:09:03,321
+Mari rangkum.
+
+61
+00:09:03,321 --> 00:09:09,693
+Magnet selalu punya dua kutub, dan medannya keluar dari utara masuk ke selatan.
+
+62
+00:09:09,693 --> 00:09:17,763
+Arus menghasilkan medan magnet, dan medan magnet mendorong muatan bergerak dengan gaya Lorentz yang tegak lurus geraknya.
+
+63
+00:09:17,763 --> 00:09:23,689
+Perubahan fluks magnet menghasilkan tegangan induksi: hukum Faraday dan hukum Lenz.
+
+64
+00:09:23,689 --> 00:09:33,856
+Di dunia kimia, gaya Lorentz menimbang molekul, spin elektron mengatur pengisian orbital, dan spin proton menjadi dasar NMR dan MRI.
+
+65
+00:09:33,856 --> 00:09:42,369
+Jadi, setiap kali melihat magnet, tanyakan: muatan apa yang sedang bergerak, dan bagaimana fluksnya berubah?
