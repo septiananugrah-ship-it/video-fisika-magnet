@@ -247,8 +247,8 @@ export const Motor: React.FC = () => {
     const a = thetaAt(tt, tSpin);
     const sI = sgn(Math.cos(a)) * ramp(tt, tCur, tCur + 0.8);
     const x = GX0 + ((GX1 - GX0) * i) / N;
-    gI.push([x, 732 - 30 * sI]);
-    gT.push([x, 834 - 40 * sI * Math.cos(a)]);
+    gI.push([x, 752 - 28 * sI]);
+    gT.push([x, 850 - 38 * sI * Math.cos(a)]);
   }
 
   return (
@@ -380,15 +380,19 @@ export const Motor: React.FC = () => {
             const a1 = 1.25 + th;
             const rr = R + 46;
             const d = `M${c[0] + rr * Math.cos(a0)},${c[1] - rr * Math.sin(a0)} A ${rr} ${rr} 0 0 0 ${c[0] + rr * Math.cos(a1)},${c[1] - rr * Math.sin(a1)}`;
-            return <path d={d} fill="none" stroke={C.work} strokeWidth={4} strokeOpacity={0.75 * ramp(t, tSpin, tSpin + 1)} markerEnd="url(#arrow-work)" />;
+            return <path d={d} fill="none" stroke={C.work} strokeWidth={4} opacity={0.75 * ramp(t, tSpin, tSpin + 1)} markerEnd="url(#arrow-work)" />;
           })()}
           <Label x={470} y={300} size={30} color={C.spr} weight={700} font="serif" italic opacity={intro}>
             B →
           </Label>
-          <Label x={cc[0] - 150} y={cc[1] + 70} size={22} color={C.kin} font="mono" opacity={komHi}>
+          <g opacity={komHi}>
+            <line x1={cc[0] - 20} y1={cc[1] + 30} x2={cc[0] - 150} y2={738} stroke={C.kin} strokeOpacity={0.6} strokeWidth={1.5} strokeDasharray="4 5" />
+            <line x1={bR[0] + 6} y1={cc[1] + 34} x2={cc[0] + 170} y2={738} stroke="#c9d6ff" strokeOpacity={0.6} strokeWidth={1.5} strokeDasharray="4 5" />
+          </g>
+          <Label x={cc[0] - 170} y={756} size={22} color={C.kin} font="mono" opacity={komHi}>
             komutator
           </Label>
-          <Label x={cc[0] + 150} y={cc[1] + 70} size={22} color="#c9d6ff" font="mono" opacity={komHi}>
+          <Label x={cc[0] + 190} y={756} size={22} color="#c9d6ff" font="mono" opacity={komHi}>
             sikat
           </Label>
         </g>
@@ -459,7 +463,7 @@ export const Motor: React.FC = () => {
                   fill="none"
                   stroke={C.work}
                   strokeWidth={4}
-                  strokeOpacity={0.8 * ramp(t, tSpin, tSpin + 1)}
+                  opacity={0.8 * ramp(t, tSpin, tSpin + 1)}
                   markerEnd="url(#arrow-work)"
                 />
               </g>
@@ -473,19 +477,19 @@ export const Motor: React.FC = () => {
         {/* grafik bergulir */}
         <g opacity={graph * panel}>
           <rect x={1230} y={682} width={540} height={186} rx={18} fill="#0b1330" fillOpacity={0.75} stroke={C.line} strokeWidth={2} />
-          <text x={1252} y={732} fontFamily={FONT.mono} fontSize={19} fill={C.cyan} dominantBaseline="central">
+          <text x={1252} y={752} fontFamily={FONT.mono} fontSize={19} fill={C.cyan} dominantBaseline="central">
             arus di A
           </text>
-          <text x={1252} y={818} fontFamily={FONT.mono} fontSize={19} fill={C.work} dominantBaseline="central">
+          <text x={1252} y={832} fontFamily={FONT.mono} fontSize={19} fill={C.work} dominantBaseline="central">
             torsi
           </text>
-          <line x1={GX0} y1={732} x2={GX1} y2={732} stroke={C.faint} strokeWidth={1.5} />
-          <line x1={GX0} y1={834} x2={GX1} y2={834} stroke={C.faint} strokeWidth={1.5} />
+          <line x1={GX0} y1={752} x2={GX1} y2={752} stroke={C.faint} strokeWidth={1.5} />
+          <line x1={GX0} y1={850} x2={GX1} y2={850} stroke={C.faint} strokeWidth={1.5} />
           <polyline points={pts(gI)} fill="none" stroke={C.cyan} strokeWidth={3.5} strokeLinejoin="round" />
           <polyline points={pts(gT)} fill="none" stroke={C.work} strokeWidth={3.5} strokeLinejoin="round" />
           <circle cx={GX1} cy={gI[N][1]} r={6} fill="#fff" />
           <circle cx={GX1} cy={gT[N][1]} r={6} fill="#fff" />
-          <text x={1555} y={700} textAnchor="middle" fontFamily={FONT.mono} fontSize={16} fill={C.muted} dominantBaseline="central">
+          <text x={1500} y={704} textAnchor="middle" fontFamily={FONT.mono} fontSize={16} fill={C.muted} dominantBaseline="central">
             arus dibalik tiap ½ putaran → torsi tetap searah
           </text>
         </g>
